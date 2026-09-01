@@ -1,7 +1,7 @@
 # MuseMate
 MuseMate is an AI-powered music co-producer that analyzes an artist's music and provides context-aware musical and production suggestions.
 # MuseMate
-
+Hi i am Nil
 ### AI-Powered Music Co-Producer 🎵🤖
 
 MuseMate is an **AI-powered music co-producer** designed to assist musicians, singers, songwriters, and music producers throughout the creative process.
