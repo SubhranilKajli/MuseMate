@@ -55,9 +55,4 @@ def analyze_tempo(audio_path: str | Path) -> TempoPrediction:
 	if bpm <= 0.0:
 		raise AudioTaggingError("Essentia returned a non-positive BPM estimate.")
 
-	confidence = None
-	if len(result) > 2 and result[2] is not None:
-		confidence = _as_finite_number(result[2], "tempo confidence")
-		if not 0.0 <= confidence <= 1.0:
-			raise AudioTaggingError("Essentia returned a tempo confidence outside 0.0 to 1.0.")
-	return TempoPrediction(bpm=bpm, confidence=confidence)
+	return TempoPrediction(bpm=bpm, confidence=None)

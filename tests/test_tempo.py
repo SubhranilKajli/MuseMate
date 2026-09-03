@@ -36,7 +36,18 @@ def test_analyze_tempo_returns_bpm_and_confidence(tmp_path, monkeypatch):
     audio_path.write_bytes(b"audio")
     install_essentia(monkeypatch, rhythm_result=(128.0, [], 0.91, [], []))
 
-    assert analyze_tempo(audio_path) == TempoPrediction(128.0, 0.91)
+    assert analyze_tempo(audio_path) == TempoPrediction(128.0, None)
+
+
+def test_analyze_tempo_ignores_non_normalized_rhythm_confidence(tmp_path, monkeypatch):
+    audio_path = tmp_path / "demo.wav"
+    audio_path.write_bytes(b"audio")
+    install_essentia(
+        monkeypatch,
+        rhythm_result=(149.6829071044922, [], 2.3106372356414795, [], []),
+    )
+
+    assert analyze_tempo(audio_path) == TempoPrediction(149.6829071044922, None)
 
 
 def test_analyze_tempo_rejects_missing_file(tmp_path):
