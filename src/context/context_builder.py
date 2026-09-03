@@ -12,6 +12,8 @@ from src.audio_analysis import (
 	get_audio_tagging_models,
 	prepare_tagging_embeddings,
 )
+from src.audio_analysis.key import analyze_key
+from src.audio_analysis.tempo import analyze_tempo
 
 
 MusicalContext = dict[str, Any]
@@ -43,12 +45,25 @@ def build_musical_context(
 	path = Path(audio_path)
 	tagging_models = models if models is not None else get_audio_tagging_models()
 	embeddings = prepare_tagging_embeddings(path, models=tagging_models)
+	tempo = analyze_tempo(audio_path)
+	key = analyze_key(audio_path)
 
 	return {
 		"schema_version": "1.0",
 		"audio": {"filename": path.name},
-		"tempo": None,
-		"tonality": None,
+		"tempo": {
+			"bpm": {
+				"value": tempo.bpm,
+				"confidence": tempo.confidence,
+			}
+		},
+		"tonality": {
+			"key": {
+				"value": key.key,
+				"mode": key.scale,
+				"confidence": key.confidence,
+			}
+		},
 		"rhythm": None,
 		"structure": {"sections": []},
 		"instruments": _serialize_predictions(
