@@ -27,6 +27,8 @@ default); if none meet its threshold, it returns the top three ranked genre
 predictions. `analyze_instruments` is a multilabel thresholded result (up to
 ten by default) and has no fallback.
 
-This module deliberately does not assemble `MusicalContext`; future context
-integration should consume these returned prediction lists alongside the other
-audio analysis results.
+`src.context.context_builder.build_musical_context` consumes these prediction
+lists and converts them to JSON-ready records. It extracts the shared
+Discogs-EffNet embeddings once, then passes those embeddings to both analyzers.
+Other MusicalContext sections remain placeholders until their MIR modules
+expose analysis functions.
